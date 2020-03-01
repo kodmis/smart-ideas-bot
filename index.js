@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
-const { random, includes } = require('lodash');
-const IDEAS_API_URL = `http://api.forismatic.com/api/1.0/?method=getQuote&format=json&key=${random(1, 999999)}&lang=ru`;
+function getRandomInRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+const IDEAS_API_URL = `http://api.forismatic.com/api/1.0/?method=getQuote&format=json&key=${getRandomInRange(1, 999999)}&lang=ru`;
 const DONATE_URL = 'https://yasobe.ru/na/mudry_mysli';
 const DONATE_IMG_URL = 'https://storage.yandexcloud.net/bot-images/bot-good-ideas/donate.PNG';
 
@@ -22,7 +24,7 @@ function isKeyWordInMessage(str) {
     'цитировать', 'процитирует', 'процитировать', 'изречение', 'изречения', 'мудрость', 'мудрости', 'мудрые',
     'мудрую', 'мудрое', 'высказывание', 'высказывания'];
   for (let item of triggerWords) {
-    if (includes(str, item.toLowerCase())) {
+    if (str.toLowerCase().includes(item)) {
       return true;
     }
   }
@@ -71,8 +73,8 @@ async function SmartIdeasBot (httpRequest)
     botMessage = await getExpression();
     telegramsResponse = generateBotMessage(botMessage, telegramRequest.message.chat.id, fastInputButtons);
   
-  } else if (userMsg === 'кинуть монетку') {
-    telegramsResponse = generateBotPhoto(donateImgUrl, telegramRequest.message.chat.id, donateLink);
+  } else if (userMessage === 'кинуть монетку') {
+    telegramsResponse = generateBotPhoto(DONATE_IMG_URL, telegramRequest.message.chat.id, donateLink);
   
   } else if (userMessage === '/start') {
     botMessage = 'Нажми на кнопку "Умная мысль", чтобы получить её бесплатно.';
