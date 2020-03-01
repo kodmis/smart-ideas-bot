@@ -62,7 +62,9 @@ async function SmartIdeasBot (httpRequest)
     keyboard: [
       [{ text: 'Умная мысль' }],
       [{ text: 'Кинуть монетку' }]
-    ]
+    ],
+    resize_keyboard: true,
+    one_time_keyboard: true
     });
   const donateLink = { text: 'Проспонсируй немного Мудрые Мысли!', url: DONATE_URL }
   let botMessage = '';
